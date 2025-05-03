@@ -6,33 +6,26 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        - USERNAME=vscode
-        - USER_UID=1000
-        - USER_GID=1000
+        USER_UID: 1000
+        USER_GID: 1000
+        USERNAME: vscode
     volumes:
-      # Main repository volume
       - ..:/workspaces/AutoGPT:cached
-      # Persist dependencies and development artifacts
-      - python-deps:/usr/local/lib/python3.12/site-packages/:delegated
-      - node-modules:/workspaces/AutoGPT/node_modules/:delegated
-      - pip-cache:/home/vscode/.cache/pip:delegated
-      - npm-cache:/home/vscode/.npm:delegated
-      # Git and GitHub config persistence
-      - git-config:/home/vscode/.gitconfig:delegated
-      - gh-config:/home/vscode/.config/gh:delegated
-      # Docker socket for Docker-in-Docker
-      - dind-var:/var/lib/docker:delegated
-      # VS Code server extensions
-      - vscode-extensions:/home/vscode/.vscode-server/extensions:delegated
+      - python-deps:/usr/local/lib/python3.12/site-packages
+      - node-modules:/workspaces/AutoGPT/node_modules
+      - pip-cache:/home/vscode/.cache/pip
+      - npm-cache:/home/vscode/.npm
+      - git-config:/home/vscode/.gitconfig
+      - gh-config:/home/vscode/.config/gh
+      - vscode-extensions:/home/vscode/.vscode-server/extensions
+    command: sleep infinity
     environment:
-      - PYTHONPATH=/workspaces/AutoGPT
-      - DOCKER_BUILDKIT=1
-      - COMPOSE_DOCKER_CLI_BUILD=1
-      - NODE_ENV=development
-      - TERM=xterm-256color
-      - COLORTERM=truecolor
+      PYTHONPATH: /workspaces/AutoGPT
+      NODE_ENV: development
+      TERM: xterm-256color
+      COLORTERM: truecolor
     ports:
-      - "8000:8000"  # Main application
+      - "8000:8000"  # FastAPI
       - "9229:9229"  # Node.js debugging
       - "5678:5678"  # Python debugging
     cap_add:
@@ -42,7 +35,6 @@ services:
     privileged: true
     init: true
     restart: unless-stopped
-    command: sleep infinity
     healthcheck:
       test: ["CMD", "ps", "aux", "|", "grep", "[s]leep infinity", "||", "exit", "1"]
       interval: 30s
@@ -63,7 +55,5 @@ volumes:
     name: autogpt-git-config
   gh-config:
     name: autogpt-gh-config
-  dind-var:
-    name: autogpt-dind-var
   vscode-extensions:
     name: autogpt-vscode-extensions

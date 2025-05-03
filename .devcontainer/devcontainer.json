@@ -1,89 +1,45 @@
 {
-  "name": "AutoGPT Development",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "dev",
-  "workspaceFolder": "/workspaces/AutoGPT",
-
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "always",
-          "source.organizeImports": "always"
+    "name": "AutoGPT Development",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dev",
+    "workspaceFolder": "/workspaces/AutoGPT",
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.12"
         },
-        "python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
-        "python.linting.flake8Enabled": true,
-        "python.formatting.provider": "black",
-        "python.testing.pytestEnabled": true,
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
-        "[python]": {
-          "editor.defaultFormatter": "ms-python.python"
-        },
-        "files.eol": "\n",
-        "git.autofetch": true,
-        "terminal.integrated.defaultProfile.linux": "bash",
-        "terminal.integrated.profiles.linux": {
-          "bash": {
-            "path": "/bin/bash"
-          }
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "ms-python.isort",
+                "njpwerner.autodocstring",
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
+                "python.formatting.provider": "black",
+                "python.formatting.blackPath": "/usr/local/bin/black",
+                "python.linting.pylintPath": "/usr/local/bin/pylint",
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": "always"
+                },
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "python.testing.nosetestsEnabled": false,
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
         }
-      },
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter",
-        "ms-python.flake8",
-        "ms-python.pylint",
-        "ms-azuretools.vscode-docker",
-        "GitHub.copilot",
-        "GitHub.vscode-pull-request-github",
-        "eamodio.gitlens",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "streetsidesoftware.code-spell-checker",
-        "bierner.markdown-preview-github-styles",
-        "yzhang.markdown-all-in-one",
-        "redhat.vscode-yaml",
-        "ms-vscode.test-adapter-converter"
-      ]
-    }
-  },
-
-  "hostRequirements": {
-    "cpus": 2,
-    "memory": "4gb",
-    "storage": "32gb"
-  },
-
-  "forwardPorts": [8000, 9229, 5678],
-
-  "postCreateCommand": "./.devcontainer/init-repo.sh",
-
-  "remoteUser": "vscode",
-
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "moby": true,
-      "azureDnsAutoDetection": true,
-      "installDockerBuildx": true,
-      "version": "latest",
-      "dockerDashComposeVersion": "v2"
     },
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "installDirectlyFromGitHubRelease": true,
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers/features/python:1": {
-      "installTools": true,
-      "version": "3.12"
-    },
-    "ghcr.io/devcontainers/features/nvidia-cuda:1": {
-      "installCudnn": false,
-      "installNvtx": false,
-      "installToolkit": false,
-      "installDrivers": false
-    }
-  }
+    "forwardPorts": [8000, 9229, 5678],
+    "postCreateCommand": "pip install -r requirements.txt",
+    "remoteUser": "vscode"
 }
