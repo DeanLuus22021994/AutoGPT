@@ -9,8 +9,8 @@
       "settings": {
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-          "source.fixAll": true,
-          "source.organizeImports": true
+          "source.fixAll.eslint": "always",
+          "source.organizeImports": "always"
         },
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
@@ -19,7 +19,7 @@
         "python.testing.pytestEnabled": true,
         "python.defaultInterpreterPath": "/usr/local/bin/python",
         "[python]": {
-          "editor.defaultFormatter": "ms-python.black-formatter"
+          "editor.defaultFormatter": "ms-python.python"
         },
         "files.eol": "\n",
         "git.autofetch": true,
@@ -78,6 +78,12 @@
     "ghcr.io/devcontainers/features/python:1": {
       "installTools": true,
       "version": "3.12"
+    },
+    "ghcr.io/devcontainers/features/nvidia-cuda:1": {
+      "installCudnn": false,
+      "installNvtx": false,
+      "installToolkit": false,
+      "installDrivers": false
     }
   }
 }
